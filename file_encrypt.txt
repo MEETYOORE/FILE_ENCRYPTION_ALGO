@@ -1,0 +1,61 @@
+file_path_1='/Users/rohit/Desktop/IS FISAC/IS_FISAC/SOURCE CODE/text.txt'
+file_path='/Users/rohit/Desktop/test'
+
+def print_list(arr):
+    for letter in arr:
+        print(letter,end='')
+    print()
+
+extra_char = [' ','\n', '±', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '+', '_', '=', '{', '}', ':', ';', '"', "'", '|', '\\', '<', '>', ',', '.', '?', '/', '~','[',']']
+extra_len=len(extra_char)
+divisor=extra_len+36
+
+def make_arr(arr):
+    for i in range(ord('A'),ord('Z')+1):
+        arr.append(chr(i))
+
+    for i in range(0,10):
+        arr.append(str(i))
+
+    for i in extra_char:
+        arr.append(i)
+
+def encrypt(plain_text,cipher_text,arr,U_KEY):
+    j=0
+    for i in range(len(plain_text)):
+        cipher_text+=arr[(((arr.index(plain_text[i])+arr.index(key_text[j]))%divisor)+U_KEY)%divisor]
+        j=j+1
+        j=j%len(key_text)
+    
+    return cipher_text
+
+arr=[]
+make_arr(arr)
+
+key_text=input("Key:")
+key_text=key_text.upper()
+
+U_KEY=int(input("U_KEY:"))
+
+
+with open(file_path,'r') as file:
+    plain_text=file.read()
+    plain_text=plain_text.upper()
+
+    cipher_text=[]
+    cipher_text=encrypt(plain_text,cipher_text,arr,U_KEY)
+    print("CIPHER TEXT: ")
+    print_list(cipher_text)
+
+encrypted_file_path='/Users/rohit/Desktop/IS FISAC/IS_FISAC/SOURCE CODE/encrypted_file'
+
+with open(encrypted_file_path,'w') as file:
+    cipher_text=[]
+    cipher_text=encrypt(plain_text,cipher_text,arr,U_KEY)
+    
+    text=''
+    for letter in cipher_text:
+        text+=letter
+    
+    file.write(text)
+

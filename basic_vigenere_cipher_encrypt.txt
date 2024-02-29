@@ -1,0 +1,45 @@
+table=[]
+
+arr=[]
+
+def print_list(arr):
+    for letter in arr:
+        print(letter,end='')
+    print()
+
+def make_array(arr):
+    for i in range(ord('A'),ord('Z')+1):
+        arr.append(chr(i))
+
+    for i in range(0,26):
+        temp=[]
+        for j in range(0,26):
+            temp.append(arr[(i+j)%len(arr)])
+        table.append(temp)
+
+def print_table(table):
+    for row in table:
+        for alpha in row:
+            print(alpha,end=" ")
+        print()
+
+make_array(arr)
+print_table(table)
+
+plain_text=input("Plain text:")
+plain_text=plain_text.replace(" ","")
+plain_text=plain_text.upper()
+
+key_text=input("Key:")
+key_text=key_text.upper()
+
+cipher_text=[]
+
+j=0
+for i in range(len(plain_text)):
+    cipher_text+=arr[((arr.index(plain_text[i])+arr.index(key_text[j]))%26)]
+    j=j+1
+    j=j%len(key_text)
+
+print("CIPHER TEXT: ")
+print_list(cipher_text)

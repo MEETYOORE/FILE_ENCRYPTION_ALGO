@@ -1,0 +1,55 @@
+file_path='/Users/rohit/Desktop/IS FISAC/IS_FISAC/SOURCE CODE/text.txt'
+
+def print_list(arr):
+    for letter in arr:
+        print(letter,end='')
+    print()
+
+extra_char = [' ','\n', '±', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '+', '_', '=', '{', '}', ':', ';', '"', "'", '|', '\\', '<', '>', ',', '.', '?', '/', '~']
+extra_len=len(extra_char)
+divisor=extra_len+36
+
+def make_arr(arr):
+    for i in range(ord('A'),ord('Z')+1):
+        arr.append(chr(i))
+
+    for i in range(0,10):
+        arr.append(str(i))
+
+    for i in extra_char:
+        arr.append(i)
+
+def encrypt(plain_text,cipher_text,arr,U_KEY,key_text):
+    j=0
+    for i in range(len(plain_text)):
+        cipher_text+=arr[(((arr.index(plain_text[i])+arr.index(key_text[j]))%divisor)+U_KEY)%divisor]
+        j=j+1
+        j=j%len(key_text)
+    
+    return cipher_text
+
+
+arr=[]
+make_arr(arr)
+
+
+plain_text="ABCDEFG"
+
+check=[]
+check=encrypt(plain_text,check,arr,0,'A')
+print("CIPHER TEXT: ")
+print_list(check)
+
+U_KEY=1
+cipher_text=[]
+
+while check!=cipher_text:
+    cipher_text=[]
+    cipher_text=encrypt(plain_text,cipher_text,arr,U_KEY,'AB')
+    U_KEY+=1
+    
+    print_list(cipher_text)
+    print(U_KEY)
+
+
+print("Final repeat at U-KEY= ",U_KEY)
